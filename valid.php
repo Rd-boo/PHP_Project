@@ -1,28 +1,34 @@
 <?php
-    $emai = $_POST["mail"];
-    $pasc = $_POST["pasc"];
+session_start();
 
-    // connexion au server et la bdd
-    $con = mysqli_connect("127.0.0.1", "root", "", "gestion_stock");
-    if (!$con) die("Echec de la connexion!");
+$email = $_POST['mail'];  // ton input du form
+$pasc  = $_POST['pasc'];  // mot de passe
 
-    // Vérifier les infos de user
-    $req = "SELECT Email, Pass_word FROM Users";
-    $valid = false;
-    $users = mysqli_query($con, $req);
+$con = mysqli_connect("127.0.0.1", "root", "", "gestion_stock");
+if (!$con) die("Echec de la connexion !");
 
-    while ($line = mysqli_fetch_array($users)){
-        if ($emai == $line["Email"] && $pasc == $line["Pass_word"]) {
-            $valid = true;
-        }
-    }
+// 🔥 On demande directement l'utilisateur qui correspond
+$req = "SELECT IdU, Nom, Email, Pass_word 
+        FROM Users 
+        WHERE Email = '$email' AND Pass_word = '$pasc'
+        LIMIT 1";
 
-    if ($valid) {
-        header("Location: produit.php");
-        exit();
-    } 
-    else {
-        header("Location: connect_user.php?error=invalid_credentials");
-        exit();
-    }
+$res = mysqli_query($con, $req);
+
+if ($line = mysqli_fetch_assoc($res)) {
+    // Garde id dans la session
+    $_SESSION['user_id']   = $line['IdU'];
+    $_SESSION['user_name'] = $line['Nom'];
+    $_SESSION['user_mail'] = $line['Email'];
+
+    echo $_SESSION['user_id'], $_SESSION['user_name'];
+
+    // 2) On l’envoie sur l’interface produit
+    header("Location: produit.php");
+    exit();
+} else {
+    // ❌ Login KO
+    header("Location: connect_user.php?error=invalid_credentials");
+    exit();
+}
 ?>
