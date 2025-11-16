@@ -49,18 +49,18 @@
             font-weight: bold;
             transition: background 0.3s;
         }
-        .ajouter {
+        .cree {
             background-color: #007BFF; /* Blue */
             color: white;
         }
-        .ajouter:hover {
+        .cree:hover {
             background-color: #0056b3;
         }
-        .annuler {
+        .eff {
             background-color: #ccc; /* Grey */
             color: #333;
         }
-        .annuler:hover {
+        .eff:hover {
             background-color: #999;
         }
     </style>
@@ -68,9 +68,16 @@
 </head>
 <body>
     <h1>Stock de produit</h1>
+    
+    <?php if (isset($_GET["error"]) && $_GET["error"] == "email_exist"): ?>
+    <p style="color:red; font-weight:bold;">
+        ⚠ Cet email existe déjà !
+    </p>
+    <?php endif; ?>
+
     <p><font size="4"> Veuillez remplir les champs suivant!</font></p>
     <form method="post" action="user.php">
-        
+        <input type="hidden" name="source" value="login_form">
         <label><b>Nom</b></label>
         <input type="text" name="nom" pattern="[a-zA-Z]+" required>
         
@@ -87,8 +94,8 @@
         <input type="password" name="past" pattern="[a-zA-Z0-9_@$]{8,30}" title="entrer au moins 8 caractères" required>
         
         <div class="button-container">
-            <input type="submit" value="Créer" class="ajouter">
-            <input type="reset" value="Effacer" class="annuler">
+            <input type="submit" value="Créer" class="cree">
+            <input type="reset" value="Effacer" class="eff">
         </div>
         <center><a href="connect_user.php"><font size ="3"><u>J'ai déja un compte.</u></font></a></center>
     </form>

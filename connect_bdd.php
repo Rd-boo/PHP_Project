@@ -1,6 +1,6 @@
 <?php
 // connexion avec server
-$con = mysqli_connect("localhost", "root", "");
+$con = mysqli_connect("127.0.0.1", "root", "");
 if (!$con) die("Echec de la connexion!");
 
 // Importer le contenut du fichier SQL
