@@ -60,7 +60,7 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         .logout-link {
-            margin-top: 480px;         /* PUSHED TO BOTTOM */
+            margin-top: auto;         /* PUSHED TO BOTTOM */
             background: #3d3d5c;
         }
 
